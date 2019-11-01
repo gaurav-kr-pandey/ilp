@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+
+	<div style="padding: 20px;">
+		<table class="table table-dark">
+			<thead>
+				<tr>
+					<th style="font-size: 23px;">Interested Students</th>
+				</tr>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Phone Number</th>
+					<th scope="col">College</th>
+					<th scope="col">Courses Enrolled</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="intrestedUser : ${intrestedUsers}">
+					<th th:text="${intrestedUser.firstName}"></th>
+					<td th:text="${intrestedUser.phoneNumber}"></td>
+					<td th:text="${intrestedUser.college?.collegeName}"></td>
+					<td>
+						<div th:each="course: ${intrestedUser.enrolled}">
+							<span th:text="${course.courseTitle}"></span>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="padding: 20px;">
+		<table class="table table-dark">
+			<thead>
+				<tr>
+					<th style="font-size: 23px;">Payment Approval</th>
+				</tr>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Phone Number</th>
+					<th scope="col">College</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="paidUser : ${paidUsers}">
+					<th th:text="${paidUser.firstName}"></th>
+					<td th:text="${paidUser.phoneNumber}"></td>
+					<td th:text="${paidUser.college?.collegeName}"></td>
+					<td>
+						<a th:href="@{/view/transaction/}+${paidUser.id}" class="btn btn-outline-success btn-sm">View Details</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

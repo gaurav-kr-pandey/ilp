@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div style="padding: 20px;">
+		<div class="card w-90 bg-success text-white">
+			<div class="card-body">
+				<h5 class="card-title">Successfully! Transaction Received For Verification.</h5>
+				<p th:text="@{Transaction Amount : }+${paymentDetails.transaction.amount}"></p>
+				<p th:text="@{Transaction ID : }+${paymentDetails.transaction.transactionId}"></p>
+				<p th:text="@{Transaction Time : }+${paymentDetails.transaction.time}"></p>
+				<p th:text="@{Paid for Course : }+${paymentDetails.courseTitle}"></p>
+			</div>
+		</div>
+	</div> 
+	<div style="padding: 20px;">
+		<div class="alert alert-success" role="alert">
+			<h4 class="alert-heading">Important Note : Mail us following details.</h4>
+			<p>1. Transaction receipt (with transaction id and transaction amount) from bank</p>
+			<p>2. Payment mode</p>
+			<p>3. Your contact number</p>
+			<p>We will get back to you as soon as we verify your transaction.</p>
+			<hr>
+			<p class="mb-0">Contact : +91-9654610063, Email : <a href="mailto:info@ilpeducation.in">info@ilpeducation.in</a></p>
+		</div>
+	</div>
+	
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

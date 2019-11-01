@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div th:text="${msg}"></div>
+	<div style="padding: 20px;">
+		<table class="table table-dark">
+			<thead>
+				<tr>
+					<th style="font-size: 23px;">Student Details and Courses Enrolled</th>
+				</tr>
+				<tr>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Username</th>
+					<th scope="col">Email</th>
+					<th scope="col">Phone Number</th>
+					<th scope="col">College</th>
+					<th scope="col">Courses Enrolled</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th th:text="${userDetails.firstName}"></th>
+					<th th:text="${userDetails.lastName}"></th>
+					<th th:text="${userDetails.username}"></th>
+					<th th:text="${userDetails.email}"></th>
+					<td th:text="${userDetails.phoneNumber}"></td>
+					<td th:text="${userDetails.college?.collegeName}"></td>
+					<td>
+						<div th:each="crs: ${userDetails.enrolled}" th:text="${crs.courseTitle}"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="padding: 20px;">
+		<table class="table table-dark">
+			<thead>
+				<tr >
+					<th style="font-size: 23px;">Amount Paid For Courses</th>
+				</tr>
+				<tr >
+					<th scope="col">Course Fee</th>
+					<th scope="col">Amount Paid</th>
+					<th scope="col">Balanced Amount</th>
+					<th scope="col">Course</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each=" paymentDetails : ${paymentList}">
+					<th scope="col" th:text=${paymentDetails.actualAmount}></th>
+					<th scope="col" th:text=${paymentDetails.amountPaid}></th>
+					<th scope="col" th:text=${paymentDetails.balancedAmount}></th>
+					<th scope="col" th:text=${paymentDetails.courseTitle}></th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="padding: 20px;">
+		<table class="table table-dark">
+			<thead>
+				<tr >
+					<th style="font-size: 23px;">Transaction History</th>
+				</tr>
+				<tr>
+					<th scope="col">Course Fee</th>
+					<th scope="col">Course</th>
+					<th scope="col">Transaction Amount</th>
+					<th scope="col">Transaction ID</th>
+					<th scope="col">Transaction Time</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="payment : ${userDetails.payment}" th:if="${payment.transaction.isValid} == false">
+					<th scope="col" th:text=${payment.actualAmount}></th>
+					<th scope="col" th:text=${payment.courseTitle}></th>
+					<th scope="col" th:text=${payment.transaction.amount}></th>
+					<th scope="col" th:text=${payment.transaction.transactionId}></th>
+					<th scope="col" th:text=${payment.transaction.time}></th>
+					
+					<th scope="col">
+					<a th:href="@{/approve/transaction/}+${userDetails.id}+@{/}+${payment.transaction.id}" class="badge badge-pill badge-success" th:text="Approve"></a>
+					<a th:href="@{/reject/transaction/}+${userDetails.id}+@{/}+${payment.paymentId}" class="badge badge-pill badge-danger" th:text="Reject"></a>
+					</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="padding: 20px;">
+		<table class="table table-dark">
+			<thead>
+				<tr >
+					<th style="font-size: 23px;">Approved Transactions</th>
+				</tr>
+				<tr >
+					<th scope="col">Transaction Amount</th>
+					<th scope="col">Course Fee</th>
+					<th scope="col">Transaction ID</th>
+					<th scope="col">Transaction Time</th>
+					<th scope="col">Course</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="payment : ${userDetails.payment}" th:if="${payment.transaction.isValid}">
+					<th scope="col" th:text=${payment.transaction.amount}></th>
+					<th scope="col" th:text=${payment.actualAmount}></th>
+					<th scope="col" th:text=${payment.transaction.transactionId}></th>
+					<th scope="col" th:text=${payment.transaction.time}></th>
+					<th scope="col" th:text=${payment.courseTitle}></th>
+					<th scope="col">
+					<a th:href="@{/disapprove/transaction/}+${userDetails.id}+@{/}+${payment.transaction.id}" class="badge badge-pill badge-danger" th:text="Disapprove"></a>
+					</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

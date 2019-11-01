@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div class="container" style="padding-top:15px;" >
+		<a th:each="crd : ${cards}" th:href="@{/update/card/}+${crd.cardId}" class="badge badge-pill badge-danger" th:text="${crd.cardTitle}" style="margin-right: 8px;"></a>
+	</div>
+<div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:15px;border: 4px;border-color: black;" align="center"></div>
+	<div style="margin: 40px;">
+		<form th:action="@{/card/update}" th:object="${card}" method="POST">
+		<input type="hidden" th:field="*{cardId}" th:value="${card.cardId}">
+		<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="cardTitle">Card Title</label> <input type="text"
+						class="form-control" th:field="*{cardTitle}" th:value="${card.cardTitle}" id="cardTitle" placeholder="Card Title" required="required">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="a">Image Name</label> 
+					<input type="text" class="form-control" th:field="*{imageName}" th:value="${card.imageName}" placeholder="imageName" required="required">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="alternateName">Alternate Image Name</label> 
+					<input type="text" class="form-control" id="alternateName" th:field="*{alternateName}" th:value="${card.alternateName}" placeholder="Alternate Image Name" required="required">
+				</div>
+				<div class="form-group col-md-2" >
+					<label for="roles">Course Associated</label> 
+					<select id="college" class="form-control"  name="courseId" required="required">
+						<option  selected="selected" value="" disabled>Select</option>
+						<option th:each="course : ${courses}" th:value="${course?.courseId}" th:text="${course.courseTitle}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputAddress2">Card Description Text</label> 
+				<input type="text" th:field="*{cardText}" th:value="${card.cardText}" class="form-control" id="cardText" placeholder="Card Description">
+			</div>
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="gridCheck" name="isCareerProgram" th:field="*{isCareerProgram}" th:value="${card.isCareerProgram}">
+					<label class="form-check-label" for="gridCheck"> Career Program</label>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

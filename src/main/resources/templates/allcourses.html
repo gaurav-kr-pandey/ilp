@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div class="card text-white bg-danger mb-3" th:each="course : ${courses}" style="margin:20px;">
+		<div class="card-header" th:text="'By : '+${course.faculty}"/>
+		<div class="card-body">
+			<h5 class="card-title" th:text="${course.courseTitle}"/>
+			<p class="card-text" th:text="${course.courseDescription}"/>
+			<a th:href="@{/course/}+${course.courseId}" class="btn btn-success" style="margin-top:5px;" sec:authorize="hasRole('USER')">View Details</a>
+		</div>
+		<div class="card-footer text-white" th:text="'Course Fee : '+${course.courseFee} + ' /- Rs'"/>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

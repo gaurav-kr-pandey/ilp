@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+<div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:25px;border: 4px;border-color: black;" align="center"></div>
+	<div style="margin: 40px;">
+		<form th:action="@{/course/create}" th:object="${course}" method="POST">
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="courseTitle">Course Title</label>
+					 <input type="text" th:field="*{courseTitle}" class="form-control" required="required" id="courseTitle" placeholder="Course Title">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputPassword4">Course Faculty</label> 
+					<input type="text" class="form-control" th:field="*{faculty}" placeholder="Faculty Name" required="required">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputPassword4">Course Fee</label> 
+					<input type="number" class="form-control" th:field="*{courseFee}" placeholder="Course Fee" min="1000" required="required">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputtext4">Course Duration</label>
+					 <input type="text" class="form-control" th:field="*{duration}" placeholder="Duration Of Course (Specify Months, Days, Years)" required="required">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputCity">Coupon</label> 
+					<input type="text" class="form-control" th:field="*{coupon}" id="coupon" placeholder="Type in your coupon code" >
+				</div>
+			</div>
+				<div class="form-group">
+					<label for="inputtext4">Course syllabus</label>
+					<!-- <input type="text" class="form-control" name="syllabus" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required"> -->
+					<textarea rows="10" class="form-control"  name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required">
+					</textarea>
+				</div>
+
+			<div class="form-group">
+				<label for="inputAddress2">Course Description</label> 
+				<input type="text" class="form-control" id="courseDescription" th:field="*{courseDescription}" placeholder="Course Description" required="required">
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div class="card text-white bg-dark mb-3" style="padding: 50px;">
+		<h5 class="card-header" th:text="'By : '+${course.faculty}" />
+		<div class="card-body">
+			<h5 class="card-title" th:text="${course.courseTitle}" />
+			<p class="card-text" th:text="${course.courseDescription}"  />
+			<ul class="list-group list-group-item-dark"  th:each="topic,itr : ${course.syllabus}" style="margin:10px;font-weight: bold;">
+				<li class="list-group-item" th:text="${itr.index+1}+' : '+ ${topic}"/>
+			</ul>
+			<a th:href="@{/course/} + ${course.courseId} + @{/enroll/}" class="btn btn-success" style="margin-top:5px;" sec:authorize="hasRole('USER')">Enroll</a>
+		</div>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

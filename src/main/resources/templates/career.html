@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body class="img-fluid" th:background="@{/images/normal-background.png}">
+	<div class="card mb-3 text-white bg-dark"
+		th:each="card : ${home.cards}">
+		<div class="row no-gutters">
+			<div class="col-md-4">
+				<img th:src="@{/images/}+${card.imageName}"
+					style="height: 250px; width: 250px;" class="card-img-top"
+					th:alt="${card.alternateName}">
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title" th:text="${card.cardTitle}" />
+					<p class="card-text" th:text="${card.cardText}"
+						style="text-decoration: bold;" />
+					<a th:href="@{/course/}+${card.courseId}" class="btn btn-primary">Explore</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

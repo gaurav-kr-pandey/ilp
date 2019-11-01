@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/common.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div class="container" style="padding: 25px;">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Course ID</th>
+					<th scope="col">Course</th>
+					<th scope="col">Fee</th>
+					<th scope="col">Duration</th>
+					<th scope="col">Registration Fee</th>
+				</tr>
+				<tr>
+					<th scope="col" th:text=${course.courseId}></th>
+					<th scope="col" th:text=${course.courseTitle}></th>
+					<th scope="col" th:text=${course.courseFee}></th>
+					<th scope="col" th:text=${course.duration}></th>
+					<th scope="col">1000 Rs.</th>
+				</tr>
+			</thead>
+
+		</table>
+	</div>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 ">
+				<div class="card text-white bg-dark">
+					<div class="card-body">
+						<h5 class="card-title">BHIM UPI</h5>
+						<p class="card-text">Pay at : paytoilp@upi</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="card text-white bg-dark">
+					<div class="card-body">
+						<h5 class="card-title">Phone Pay UPI</h5>
+						<p class="card-text">Pay at : paytoilp@ybl</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="card w-90 bg-dark text-white" >
+			<div class="card-body">
+				<h5 class="card-title">Bank Account Details</h5>
+				<p class="card-text">Account Holder Name : Rajni Bajpai</p>
+				<p class="card-text">Account Number : 2910118000128</p>
+				<p class="card-text">Bank : CANARA BANK</p>
+				<p class="card-text">IFSC Code : CNR0002910</p>
+			</div>
+		</div>
+	</div>
+	<div class="container" style="padding-top: 20px;">
+		<form th:action="@{/course/} + ${course.courseId} + @{/payment/}"
+			th:object="${transaction}" method="POST">
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label>Transaction ID</label> 
+					<input type="text" class="form-control" pattern=".{12,12}" th:field="*{transactionId}" placeholder="Transaction ID" required="required" maxlength="12">
+				</div>
+				<div class="form-group col-md-6">
+					<label>Amount Paid</label> 
+					<input type="number" class="form-control" min="1000" th:field="*{amount}" placeholder="Amount Paid" required="required">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary mb-2">Submit</button>
+		</form>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>
