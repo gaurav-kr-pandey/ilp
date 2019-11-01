@@ -36,11 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(ILPConstants.ALL_USER_URL).hasAnyRole(ILPConstants.USER_ACCESS,ILPConstants.ADMIN_ACCESS,ILPConstants.SUPER_ADMIN_ACCESS)
+		.antMatchers("/user/**").hasAnyRole(ILPConstants.USER_ACCESS,ILPConstants.ADMIN_ACCESS,ILPConstants.SUPER_ADMIN_ACCESS)
 		.antMatchers(ILPConstants.ALL_ADMIN_URL).hasAnyRole(ILPConstants.ADMIN_ACCESS,ILPConstants.SUPER_ADMIN_ACCESS)
 		.antMatchers(ILPConstants.ALL_SUPER_ADMIN_URL).hasRole(ILPConstants.SUPER_ADMIN_ACCESS)
         .antMatchers(ILPConstants.LOGIN_PAGE).permitAll()
-        .antMatchers(ILPConstants.PERMIT_ALL_USER).permitAll()
+        .antMatchers(ILPConstants.PERMIT_ALL_USER,ILPConstants.ALL_USER_URL).permitAll()
 		.and()
 		.formLogin()
 		.loginPage(ILPConstants.LOGIN_PAGE)

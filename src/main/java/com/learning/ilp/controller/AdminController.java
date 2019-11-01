@@ -134,28 +134,28 @@ public class AdminController {
 		return "redirect:/card/update-cards";
 	}
 	
-	@GetMapping("/course/entry")
+	@GetMapping("/sadmin/course/entry")
 	public String course(@ModelAttribute("course") Course course,Model model) {
 		return "create-course";
 	}
 	
-	@PostMapping("/course/create")
+	@PostMapping("/sadmin/course/create")
 	public String createCourse(@ModelAttribute("course") Course course,RedirectAttributes redir) {
 		course.setDisabled("enable");
 		courseRepository.save(course);
 		redir.addFlashAttribute("msg","Course with title : "+course.getCourseTitle().toUpperCase()+ ", created successfully.");
-		return "redirect:/course/entry";
+		return "redirect:/sadmin/course/entry";
 	}
 	
 	
-	@GetMapping("/course/update-course")
+	@GetMapping("/sadmin/course/update-course")
 	public String updateCoursePage(@ModelAttribute("course") Course course,Model model) {
 		List<Course> courses = courseRepository.findAll();
 		model.addAttribute("courses", courses);
 		return "update-course";
 	}
-	@GetMapping("/update/course/{courseId}")
-	public String updateCourse(@ModelAttribute("course") Course course,@PathVariable("courseId") long courseId,Model model) {
+	@GetMapping("/sadmin/course/{courseId}")
+	public String getCourse(@ModelAttribute("course") Course course,@PathVariable("courseId") long courseId,Model model) {
 		List<Course> courses = courseRepository.findAll();
 		model.addAttribute("courses", courses);
 		Course tempCourse = courseRepository.findByCourseId(courseId);
@@ -163,11 +163,11 @@ public class AdminController {
 		return "update-course";
 	}
 	
-	@PostMapping("/course/update")
+	@PostMapping("/sadmin/course/update")
 	public String updateCourse(@ModelAttribute("course") Course course,RedirectAttributes redir) {
 		courseRepository.save(course);
 		redir.addFlashAttribute("msg","Course with title : "+course.getCourseTitle().toUpperCase()+ ", updated successfully.");
-		return "redirect:/course/update-course";
+		return "redirect:/sadmin/course/update-course";
 	}
 	@GetMapping("/college/entry")
 	public String collegePage(@ModelAttribute("college") College college,Model model) {

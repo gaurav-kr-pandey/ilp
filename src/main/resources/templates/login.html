@@ -5,14 +5,14 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/loginBackground.jpg}" class="img-fluid">
-	<div class="container" style="padding-top: 30px;">
+	<div class="container border border-light" style="padding-top: 12px;margin-top: 50px;">
 		
 		<form th:action="@{/authenticateTheUser}" method="POST"
 			class="form-horizontal">
 			<div class="form-group">
 				<label for="exampleInputEmail1" class="text-light">Username</label> <input
 					type="text" class="form-control" id="exampleInputEmail1"
-					name="username" aria-describedby="emailHelp"
+					name="username" aria-describedby="emailHelp" required="required" pattern="^[a-zA-Z0-9]*$" title="Username should be alpha numeric and can't contain spaces."
 					placeholder="Enter email"> <small id="emailHelp"
 					class="form-text text-muted">We'll never share your email
 					with anyone else.</small>

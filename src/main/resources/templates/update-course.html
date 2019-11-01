@@ -5,11 +5,11 @@
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
 	<div class="container" style="padding-top:15px;" >
-		<a th:each="crs : ${courses}" th:href="@{/update/course/}+${crs.courseId}" class="badge badge-pill badge-danger" th:text="${crs.courseTitle}" style="margin-right: 8px;"></a>
+		<a th:each="crs : ${courses}" th:href="@{/sadmin/course/}+${crs.courseId}" class="badge badge-pill badge-danger" th:text="${crs.courseTitle}" style="margin-right: 8px;"></a>
 	</div>
 <div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:15px;border: 4px;border-color: black;" align="center"></div>
 	<div style="margin: 40px;">
-		<form th:action="@{/course/update}" th:object="${course}" method="POST">
+		<form th:action="@{/sadmin/course/update}" th:object="${course}" method="POST">
 		<input type="hidden" th:field="*{courseId}" th:value="${course.courseId}">
 			<div class="form-row">
 				<div class="form-group col-md-4">

@@ -48,13 +48,19 @@ public class UserProfileController {
 		College clg = collegeServices.getCollege(user.getColgId());
 		user.setCollege(clg);
 		String username=user.getUsername();
+		if(!user.getPassword().equals(user.getConfirmPassword())) {
+			model.addAttribute("user",user);
+			model.addAttribute("msg","Error : Password and Confirm Password must be same.");
+			return "sign-up";
+		}
 		if(userRepository.findByUsername(username)==null) {
 			if(user.getRoles()==null || user.getRoles() == "")
 				user.setRoles("ROLE_USER");
 			userRepository.save(user);
 		}
 		else {
-			model.addAttribute("userNameExists", "'"+user.getUsername()+"'"+" not available. You can also use your Email Id as username.");
+			model.addAttribute("user",user);
+			model.addAttribute("userNameExists", "'"+user.getUsername()+"'"+" not available.");
 			return "sign-up";
 		}
 		return "redirect:/login";

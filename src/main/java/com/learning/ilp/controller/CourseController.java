@@ -36,6 +36,9 @@ public class CourseController {
 	private CourseServices courseServices;
 	
 	@Autowired
+	private TransactionRepository transactionRepository;
+	
+	@Autowired
 	private UserRepository userRepo;
 	
 	@GetMapping("/course/{courseId}")
@@ -53,7 +56,7 @@ public class CourseController {
 		return "allcourses";
 	}
 	
-	@GetMapping("/course/{courseId}/enroll")
+	@GetMapping("/user/course/{courseId}/enroll")
 	public String enrollCourse(@PathVariable("courseId") long courseId,@ModelAttribute("transaction") Transaction transaction,Model model) {
 		User user = getUser();
 		Course course=courseServices.getCourse(courseId);
@@ -66,11 +69,25 @@ public class CourseController {
 		return "payment";
 	}
 	
-	@PostMapping("/course/{courseId}/payment")
+	@GetMapping("/user/course/{courseId}")
+	public String feeDetails(@PathVariable("courseId") long courseId,Model model) {
+		Course course=courseServices.getCourse(courseId);
+		model.addAttribute("course", course);
+		return "course";
+	}
+	
+	@PostMapping("/user/course/{courseId}/payment")
 	public String paymentPage(Model model,@ModelAttribute("transaction") Transaction transaction,@PathVariable int courseId) {
 		long amountPaid=0;
 		User user = getUser();
 		Course course=courseServices.getCourse(courseId);
+		
+		if(transactionRepository.existsByTransactionId(transaction.getTransactionId())) {
+			model.addAttribute("duplicate", "Invalid : Transaction ID can not be duplicate.");
+			model.addAttribute("course", course);
+			return "payment";
+		}
+		
 		Set<Course> tempCourse=user.getEnrolled();
 		Set<Payment> payment= user.getPayment();
 		Payment tempPayment = new Payment();
@@ -104,7 +121,7 @@ public class CourseController {
 		return "transaction-history";
 	}
 	
-	@GetMapping("/course/payments")
+	@GetMapping("/user/course/payments")
 	public String paymentHistrory(Model model) {
 		long amountPaid=0;
 		User user = getUser();

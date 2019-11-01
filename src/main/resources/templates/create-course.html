@@ -6,7 +6,7 @@
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
 <div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:25px;border: 4px;border-color: black;" align="center"></div>
 	<div style="margin: 40px;">
-		<form th:action="@{/course/create}" th:object="${course}" method="POST">
+		<form th:action="@{/sadmin/course/create}" th:object="${course}" method="POST">
 			<div class="form-row">
 				<div class="form-group col-md-4">
 					<label for="courseTitle">Course Title</label>

@@ -10,9 +10,9 @@
 		<div class="card-body">
 			<h5 class="card-title" th:text="${course.courseTitle}"/>
 			<p class="card-text" th:text="${course.courseDescription}"/>
-			<a th:href="@{/course/}+${course.courseId}" class="btn btn-success" style="margin-top:5px;" sec:authorize="hasRole('USER')">View Details</a>
+			<a th:href="@{/course/}+${course.courseId}" class="btn btn-success" style="margin-top:5px;">View Details</a>
 		</div>
-		<div class="card-footer text-white" th:text="'Course Fee : '+${course.courseFee} + ' /- Rs'"/>
+		<div class="card-footer text-white">Institute for Learning and Placement | &nbsp &nbsp &nbsp mail : info@ilpeducation.in | &nbsp &nbsp &nbsp contact : +91-9654610063</div>
 	</div>
 </body>
 <div th:replace="fragments/footer :: footer"></div>
