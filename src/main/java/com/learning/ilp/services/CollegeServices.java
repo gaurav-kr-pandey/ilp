@@ -28,4 +28,9 @@ public class CollegeServices {
 		collegeRepository.save(college);
 		
 	}
+
+	public College findByCollegeId(int collegeId) {
+		// TODO Auto-generated method stub
+		return collegeRepository.findByCollegeId(collegeId);
+	}
 }

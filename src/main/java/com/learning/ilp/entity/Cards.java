@@ -23,6 +23,8 @@ public class Cards {
 	private String cardText;
 	@Column(name="courseid")
 	private int courseId;
+	@Column(columnDefinition = "varchar(255) default 'enable'")
+	private String disabled;
 	private boolean isCareerProgram;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "homeid", nullable = false)
@@ -107,6 +109,14 @@ public class Cards {
 
 	public void setCardId(int cardId) {
 		this.cardId = cardId;
+	}
+
+	public String getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(String disabled) {
+		this.disabled = disabled;
 	}
  
 }

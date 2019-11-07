@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
@@ -63,9 +68,7 @@
 				<div class="form-group col-md-6" >
 					<label for="roles">Role</label> 
 					<select id="roles" class="form-control" th:field="*{roles}">
-						<option value="ROLE_USER" selected="selected">Student</option>
-						<option value="ROLE_USER,ROLE_ADMIN">Admin</option>
-						<option value="ROLE_USER,ROLE_ADMIN,ROLE_SUPER_ADMIN">Super Admin</option>
+						<option value="ROLE_USER,ROLE_ADMIN,ROLE_SUPER_ADMIN" selected="selected">Super Admin</option>
 					</select>
 				</div>
 				<div class="form-group col-md-6">

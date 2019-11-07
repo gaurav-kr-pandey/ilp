@@ -39,6 +39,7 @@ public class User{
 	private long alternatePhoneNumber;
 	private String coupon;
 	private String registrationType;
+	private int passOutYear;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	Set<Payment> payment;
@@ -139,6 +140,12 @@ public class User{
 	}
 	public void setPayment(Set<Payment> payment) {
 		this.payment = payment;
+	}
+	public int getPassOutYear() {
+		return passOutYear;
+	}
+	public void setPassOutYear(int passOutYear) {
+		this.passOutYear = passOutYear;
 	}
 	
 }

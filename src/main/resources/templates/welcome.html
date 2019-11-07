@@ -1,17 +1,25 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="CDAC, JAVA, ANGULAR, Spring , Springboot, Hibernate, ILP, Institute for Learning and Placement, Cdac Preparation">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+	<meta name="google-site-verification" content="P4n8qIY4tCashisZK2qglyYJZAb-N_uYSqWtJcN1I3M" />
+</head>
 <head th:replace="fragments/header :: header">
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/css/common.css}" />
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" th:href="@{/css/common.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
 	<div class="card-deck" style="padding: 20px;">
 		<div class="card bg-dark text-white" style="width: 18rem;" th:each="card : ${home.cards}" >
 			<img th:src="@{/images/}+${card.imageName}" class="card-img-top img-fluid" style="height: 19rem;width: 19rem;" alt="cardImage">
+			<a th:href="@{/course/}+${card.courseId}" class="btn btn-primary">Explore</a>
 			<div class="card-body">
 				<h5 class="card-title" th:text="${card.cardTitle}"></h5>
 				<p class="card-text" th:text="${card.cardText}"></p>
-				<a th:href="@{/course/}+${card.courseId}" class="btn btn-primary">Explore</a>
 			</div>
 		</div>
 	</div>

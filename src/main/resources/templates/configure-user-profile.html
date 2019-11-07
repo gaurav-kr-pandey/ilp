@@ -1,20 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
-	<div class="container" style="padding-top: 40px;margin-left: 35%">
+	<div class="d-flex justify-content-center" style="padding-top: 20px;">
+		<strong th:text="${msg}" style="font-size:20px;">
+		</strong>
+	</div>
+	<div class="d-flex justify-content-center" style="padding-top: 20px;">
 		<form class="form-inline my-2 my-lg-0"
 			th:action="@{/configure/user/search}" method="POST">
-			<input class="form-control mr-sm-2" type="search" name="username"
+			<input class="form-control mr-sm-2" type="search" name="username" required="required"
 				placeholder="Search" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		</form>
 	</div>
 	<div style="margin: 40px;">
-		<form th:action="@{/update/user/profile}" th:object="${user}"
+		<form th:action="@{/configure/user/profile}" th:object="${user}"
 			method="POST">
+			<input type="hidden" th:field="*{id}" th:value="${user.id}">
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="inputEmail4">Email</label> <input type="email"
@@ -24,7 +34,8 @@
 				<div class="form-group col-md-6">
 					<label for="username">Username</label> <input type="text"
 						class="form-control" th:field="*{username}"
-						th:value="${user.username}" disabled="disabled">
+						th:value="${user.username}">
+						<div style="color:red;align-content: center;font-weight: 18px;" th:text="${userNameExists}"></div>
 				</div>
 			</div>
 			<div class="form-row">
@@ -41,17 +52,21 @@
 				</div>
 			</div>
 			<div class="form-row">
-				<div class="form-group col-md-6">
-					<label for="password">Password</label> <input type="text"
-						class="form-control" id="password" required="required"
-						th:value="${user.password}" th:field="*{password}"
-						placeholder="Password">
+				<div class="form-group col-md-4">
+					<label for="password">Password</label> 
+					<input type="text" class="form-control" th:value="${user.password}" id="password" th:field="*{password}" placeholder="Password" required="required" pattern=".{6,10}" 
+					title="Password Should be 6 to 10 character long.">
 				</div>
-				<div class="form-group col-md-6">
-					<label for="confirmPassword">Confirm Password</label> <input
-						type="text" class="form-control" th:field="*{confirmPassword}"
-						required="required" th:value="${user.confirmPassword}"
-						placeholder="Confirm Password">
+				<div class="form-group col-md-4">
+					<label for="confirmPassword">Confirm Password</label> 
+					<input type="text" class="form-control" th:value="${user.confirmPassword}" th:field="*{confirmPassword}" placeholder="Confirm Password" required="required" pattern=".{6,10}" 
+					title="Password Should be 6 to 10 character long.">
+					<div style="color:red;align-content: center;font-weight: 18px;" th:text="${passValid}"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="confirmPassword">Passout Year</label> 
+					<input type="text" class="form-control" th:value="${user.passOutYear}"  th:field="*{passOutYear}" maxlength="4" placeholder="Passout Year" required="required" pattern="\d{4}" 
+					title="Enter Valid Year between 2000-20XX">
 				</div>
 			</div>
 			<div class="form-row">
@@ -63,19 +78,19 @@
 						<option sec:authorize="hasRole('SUPER_ADMIN')" value="college">College</option>
 					</select>
 				</div>
-				<div class="form-group col-md-3">
-					<label for="phoneNumber">Phone Number</label> <input type="text"
-						class="form-control" id="phoneNumber" required="required"
-						th:value="${user.phoneNumber}" th:field="*{phoneNumber}">
-				</div>
-				<div class="form-group col-md-2">
+				<div class="form-group col-md-4">
 					<label for="roles">Colleges</label> <select id="college"
 						class="form-control" name="colgId" required="required"
 						th:value="${user.colgId}">
 						<option value="" selected="selected" disabled>Select</option>
-						<option th:each="college : ${colleges}"
+						<option th:each="college : ${colleges}" th:selected="${college.collegeId==user.colgId}"
 							th:value="${college?.collegeId}" th:text="${college.collegeName}"></option>
 					</select>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="phoneNumber">Phone Number</label> <input type="text"
+						class="form-control" id="phoneNumber" required="required"
+						th:value="${user.phoneNumber}" th:field="*{phoneNumber}">
 				</div>
 			</div>
 			<div class="form-row">

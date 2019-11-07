@@ -1,13 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
 	<div class="container" style="padding-top:15px;" >
-		<a th:each="crd : ${cards}" th:href="@{/update/card/}+${crd.cardId}" class="badge badge-pill badge-danger" th:text="${crd.cardTitle}" style="margin-right: 8px;"></a>
+		<a th:each="crd : ${cards}" th:href="@{/update/card/}+${crd.cardId}" th:if="${crd.disabled} == 'disable'" class="badge badge-pill badge-danger" th:text="${crd.cardTitle}" style="margin-right: 8px;"></a>
+		<a th:each="crd : ${cards}" th:href="@{/update/card/}+${crd.cardId}" th:if="${crd.disabled} == 'enable'" class="badge badge-pill badge-success" th:text="${crd.cardTitle}" style="margin-right: 8px;"></a>
 	</div>
-<div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:15px;border: 4px;border-color: black;" align="center"></div>
+	<div class="d-flex justify-content-center" style="padding-top: 20px;">
+		<strong th:text="${msg}" style="font-size:20px;" align="center">
+		</strong>
+	</div>
 	<div style="margin: 40px;">
 		<form th:action="@{/card/update}" th:object="${card}" method="POST">
 		<input type="hidden" th:field="*{cardId}" th:value="${card.cardId}">
@@ -30,7 +39,15 @@
 					<label for="roles">Course Associated</label> 
 					<select id="college" class="form-control"  name="courseId" required="required">
 						<option  selected="selected" value="" disabled>Select</option>
-						<option th:each="course : ${courses}" th:value="${course?.courseId}" th:text="${course.courseTitle}"></option>
+						<option th:each="course : ${courses}" th:selected="${course.courseId==card.courseId}" th:value="${course?.courseId}" th:text="${course.courseTitle}"></option>
+					</select>
+				</div>
+				<div class="form-group col-md-4" >
+					<label for="roles">Card Status</label> 
+					<select id="college" class="form-control"  name="disabled" required="required" >
+						<option  value="" selected="selected" disabled>Select</option>
+						<option value="enable" th:selected="${card.disabled=='enable'}">Enable</option>
+						<option value="disable" th:selected="${card.disabled=='disable'}">Disable</option>
 					</select>
 				</div>
 			</div>

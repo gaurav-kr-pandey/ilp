@@ -49,8 +49,10 @@ public class UserProfileController {
 		user.setCollege(clg);
 		String username=user.getUsername();
 		if(!user.getPassword().equals(user.getConfirmPassword())) {
+			List<College> colleges = collegeServices.getAllCollege();
+			model.addAttribute("colleges", colleges);
 			model.addAttribute("user",user);
-			model.addAttribute("msg","Error : Password and Confirm Password must be same.");
+			model.addAttribute("msg","Password and Confirm Password must be same.");
 			return "sign-up";
 		}
 		if(userRepository.findByUsername(username)==null) {
@@ -87,8 +89,10 @@ public class UserProfileController {
 	
 	@PostMapping("/update/user/profile")
 	public String updateUserProfile(@ModelAttribute("user") User user,Model model) {
+		List<College> colleges = collegeServices.getAllCollege();
 		College clg = collegeServices.getCollege(user.getColgId());
 		user.setCollege(clg);
+						
 		User userTemp= getUser();
 		userTemp.setAlternatePhoneNumber(user.getAlternatePhoneNumber());
 		userTemp.setCollege(user.getCollege());
@@ -101,10 +105,19 @@ public class UserProfileController {
 		userTemp.setPhoneNumber(user.getPhoneNumber());
 		userTemp.setRegistrationType(user.getRegistrationType());
 		userTemp.setColgId(user.getColgId());
-		List<College> colleges = collegeServices.getAllCollege();
+		
+		if(!user.getPassword().equals(user.getConfirmPassword())) {
+			model.addAttribute("colleges", colleges);
+			model.addAttribute("user", userTemp);
+			model.addAttribute("passValid", "Password and confirm password must match.");
+			return "update-user-profile";
+		}
+		
 		model.addAttribute("colleges", colleges);
+		model.addAttribute("user", userTemp);
 		userRepository.save(userTemp);
-		return "redirect:/";
+		model.addAttribute("msg", "Profile Updated Successfully.");
+		return "update-user-profile";
 	}
 	
 	private  User getUser() {

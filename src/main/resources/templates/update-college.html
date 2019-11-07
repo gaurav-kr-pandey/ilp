@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div class="container" style="padding-top:15px;" >
+		<a th:each="clg : ${colleges}" th:href="@{/sadmin/college/}+${clg.collegeId}" class="badge badge-pill badge-success" th:text="${clg.collegeName}" style="margin-right: 8px;"></a>
+	</div>
+	<div class="d-flex justify-content-center" style="padding-top: 20px;">
+		<strong th:text="${msg}" style="font-size:20px;">
+		</strong>
+	</div>
+	<div style="margin: 40px;">
+		<form th:action="@{/college/update}" th:object="${college}" method="POST">
+		<input type="hidden" th:field="*{collegeId}" th:value="${college.collegeId}">
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="collegeTitle">College Name</label>
+					 <input type="text" th:field="*{collegeName}" th:value="*{collegeName}" class="form-control" required="required" id=collegeName placeholder="College Name">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputPassword4">University</label> 
+					<input type="text" class="form-control" th:field="*{university}" th:value="${college.university}" placeholder="University" required="required">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputtext4">State</label>
+					 <input type="text" class="form-control" th:field="*{state}" th:value="${college.state}" placeholder="State" required="required">
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputCity">Contact Person Name</label> 
+					<input type="text" class="form-control" th:field="*{contactPersonName}" th:value="${college.contactPersonName}" id="contactPersonName" placeholder="Contact Person Name" >
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="inputtext4">Address</label>
+					 <input type="text" class="form-control" th:field="*{address}" th:value="${college.address}" placeholder="Address" required="required">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputCity">Email</label> 
+					<input type="email" class="form-control" th:field="*{contactEmail}" th:value="${college.contactEmail}" id="contactEmail" placeholder="Email" >
+				</div>
+				<div class="form-group col-md-4">
+					<label for="inputCity">Contact Phone Number</label> 
+					<input type="text" class="form-control" th:field="*{contactPhoneNumber}" th:value="${college.contactPhoneNumber}" id="coupon" placeholder="Contact Phone Number" >
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

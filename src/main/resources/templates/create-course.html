@@ -1,10 +1,18 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
-<div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:25px;border: 4px;border-color: black;" align="center"></div>
+	<div style="padding-top:25px;" align="center">
+		<strong th:text="${msg}" style="font-size:20px;" align="center">
+		</strong>
+	</div>
 	<div style="margin: 40px;">
 		<form th:action="@{/sadmin/course/create}" th:object="${course}" method="POST">
 			<div class="form-row">
@@ -34,7 +42,8 @@
 				<div class="form-group">
 					<label for="inputtext4">Course syllabus</label>
 					<!-- <input type="text" class="form-control" name="syllabus" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required"> -->
-					<textarea rows="10" class="form-control"  name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required">
+					<textarea rows="10" class="form-control" th:value="${course.syllabus}" th:field="*{syllabus}" 
+					placeholder="Enter Syllabus Seperated with commas (;)" required="required">
 					</textarea>
 				</div>
 

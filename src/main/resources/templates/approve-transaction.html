@@ -1,11 +1,19 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
-	<div th:text="${msg}"></div>
-	<div style="padding: 20px;">
+	<div style="padding-top:25px;" align="center">
+		<strong th:text="${msg}" style="font-size:20px;" align="center">
+		</strong>
+	</div>
+	<div class="table-responsive" style="padding: 10px;">
 		<table class="table table-dark">
 			<thead>
 				<tr>
@@ -36,30 +44,34 @@
 			</tbody>
 		</table>
 	</div>
-	<div style="padding: 20px;">
+	<div class="table-responsive" style="padding: 10px;padding-top: 0px;">
 		<table class="table table-dark">
 			<thead>
 				<tr >
 					<th style="font-size: 23px;">Amount Paid For Courses</th>
 				</tr>
 				<tr >
+					<th scope="col">Course</th>
 					<th scope="col">Course Fee</th>
 					<th scope="col">Amount Paid</th>
 					<th scope="col">Balanced Amount</th>
-					<th scope="col">Course</th>
+					
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each=" paymentDetails : ${paymentList}">
+					<th scope="col" th:text=${paymentDetails.courseTitle}></th>
 					<th scope="col" th:text=${paymentDetails.actualAmount}></th>
 					<th scope="col" th:text=${paymentDetails.amountPaid}></th>
-					<th scope="col" th:text=${paymentDetails.balancedAmount}></th>
-					<th scope="col" th:text=${paymentDetails.courseTitle}></th>
+					<th scope="col" th:if="${paymentDetails.balancedAmount} > 0" th:text=${paymentDetails.balancedAmount}></th>
+					<th scope="col" th:if="${paymentDetails.balancedAmount} == 0" style="color:green;" class="far fa-check-circle">Payment Done<th>
+					<th scope="col" th:if="${paymentDetails.balancedAmount} < 0" style="color:red;" th:text=${paymentDetails.balancedAmount}><th>
+					
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div style="padding: 20px;">
+	<div class="table-responsive" style="padding: 10px;padding-top: 0px;">
 		<table class="table table-dark">
 			<thead>
 				<tr >
@@ -90,7 +102,7 @@
 			</tbody>
 		</table>
 	</div>
-	<div style="padding: 20px;">
+	<div class="table-responsive" style="padding: 10px;padding-top: 0px;">
 		<table class="table table-dark">
 			<thead>
 				<tr >

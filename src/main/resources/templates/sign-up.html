@@ -1,5 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
@@ -29,15 +34,21 @@
 				</div>
 			</div>
 			<div class="form-row">
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-4">
 					<label for="password">Password</label> 
 					<input type="text" class="form-control" th:value="${user.password}" id="password" th:field="*{password}" placeholder="Password" required="required" pattern=".{6,10}" 
 					title="Password Should be 6 to 10 character long.">
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-4">
 					<label for="confirmPassword">Confirm Password</label> 
 					<input type="text" class="form-control" th:value="${user.confirmPassword}" th:field="*{confirmPassword}" placeholder="Confirm Password" required="required" pattern=".{6,10}" 
 					title="Password Should be 6 to 10 character long.">
+					<div style="color:red;align-content: center;font-weight: 18px;" th:text="${msg}"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="confirmPassword">Passout Year</label> 
+					<input type="text" class="form-control" th:value="${user.passOutYear}"  th:field="*{passOutYear}" maxlength="4" placeholder="Passout Year" required="required" pattern="\d{4}" 
+					title="Enter Valid Year between 2000-20XX">
 					<div style="color:red;align-content: center;font-weight: 18px;" th:text="${msg}"></div>
 				</div>
 			</div>
@@ -51,7 +62,7 @@
 				</div>
 				<div class="form-group col-md-3">
 					<label for="phoneNumber">Phone Number</label> 
-					<input type="text" class="form-control" id="phoneNumber" th:value="${user.phoneNumber}" pattern="^[0-9]*$" th:field="*{phoneNumber}" required="required"
+					<input type="number" class="form-control" id="phoneNumber" th:value="${user.phoneNumber}" pattern=".{10,10}" th:field="*{phoneNumber}" required="required"
 					title="Enter Valid Number (Excluding country code or Zero Prefix)">
 				</div>
 				<div class="form-group col-md-2" >
@@ -59,6 +70,7 @@
 					<select id="college" class="form-control"  name="colgId">
 						<option  value="" selected="selected" disabled>Select</option>
 						<option th:each="college : ${colleges}" th:value="${college?.collegeId}" th:text="${college.collegeName}"></option>
+						<option  value="others">Others</option>
 					</select>
 				</div>
 			</div>
@@ -73,7 +85,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label for="alternatePhoneNumber">Alternate Number</label> 
-					<input type="text" class="form-control"  id="alternatePhoneNumber" pattern="^[0-9]*$"  th:value="${user.alternatePhoneNumber}"
+					<input type="number" class="form-control"  id="alternatePhoneNumber" pattern=".{10,10}"  th:value="${user.alternatePhoneNumber}"
 					title="Enter Valid Number (Excluding country code or Zero Prefix)" th:field="*{alternatePhoneNumber}">
 				</div>
 			</div>

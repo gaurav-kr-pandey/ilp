@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Login</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
@@ -12,7 +16,7 @@
 			<div class="form-group">
 				<label for="exampleInputEmail1" class="text-light">Username</label> <input
 					type="text" class="form-control" id="exampleInputEmail1"
-					name="username" aria-describedby="emailHelp" required="required" pattern="^[a-zA-Z0-9]*$" title="Username should be alpha numeric and can't contain spaces."
+					name="username" aria-describedby="emailHelp" required="required"
 					placeholder="Enter email"> <small id="emailHelp"
 					class="form-text text-muted">We'll never share your email
 					with anyone else.</small>
@@ -23,8 +27,7 @@
 					name="password" placeholder="Password">
 			</div>
 			<div class="form-group">
-				<a href="/signup" class="btn btn-link text-light" style="font-size: 20px;">Create
-					Your Account Here</a>
+				<a href="/signup" class="btn btn-link text-light" style="font-size: 20px;">Create Your Account Here</a>
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 			<div class="form-group" style="padding-top: 30px;">
@@ -32,11 +35,13 @@
 					<div>
 						<div th:if="${param.error}">
 							<div class="alert alert-danger col-xs-offset-1 col-xs-10">
-								Invalid username and password.</div>
+								Invalid username and password.
+							</div>
 						</div>
 						<div th:if="${param.logout}">
 							<div class="alert alert-success col-xs-offset-1 col-xs-10">
-								You have been logged out.</div>
+								You have been logged out.
+							</div>
 						</div>
 					</div>
 				</div>

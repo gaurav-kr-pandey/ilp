@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Course {
@@ -28,27 +29,18 @@ public class Course {
 	private String faculty;
 	private String duration;
 	private String coupon;
+	@Column(columnDefinition = "varchar(255) default 'enable'")
 	private String disabled;
-	@ElementCollection
-	@CollectionTable
+	/*
+	 * @ElementCollection
+	 * 
+	 * @CollectionTable
+	 * 
+	 * @Column(name = "syllabus",columnDefinition = "TEXT") private List<String>
+	 * syllabus;
+	 */
 	@Column(name = "syllabus",columnDefinition = "TEXT")
-	private List<String> syllabus;
-		
-	public Course() {
-	}
-		
-	public Course(long courseId, String courseTitle, String courseDescription, long courseFee, String faculty,
-			String duration, String coupon,List<String> syllabus) {
-		this.courseId = courseId;
-		this.courseTitle = courseTitle;
-		this.courseDescription = courseDescription;
-		this.courseFee = courseFee;
-		this.faculty = faculty;
-		this.duration = duration;
-		this.coupon = coupon;
-		this.syllabus=syllabus;
-	}
-
+	private String syllabus;
 
 	public String getCourseDescription() {
 		return courseDescription;
@@ -93,17 +85,15 @@ public class Course {
 	public void setFaculty(String faculty) {
 		this.faculty = faculty;
 	}
-	public List<String> getSyllabus() {
+	public String getSyllabus() {
 		return syllabus;
 	}
-	public void setSyllabus(List<String> syllabus) {
+	public void setSyllabus(String syllabus) {
 		this.syllabus = syllabus;
 	}
-
 	public String getDisabled() {
 		return disabled;
 	}
-
 	public void setDisabled(String disabled) {
 		this.disabled = disabled;
 	}

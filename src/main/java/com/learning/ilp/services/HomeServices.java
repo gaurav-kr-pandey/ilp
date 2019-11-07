@@ -19,7 +19,7 @@ public class HomeServices {
 	public Home startHome() {
 		Home home = new Home();
 		List<Cards> cards = cardsRepository.findAll();
-		List<Cards> homeCards=cards.stream().filter(card->!card.getIsCareerProgram()).collect(Collectors.toList());
+		List<Cards> homeCards=cards.stream().filter(card->!card.getIsCareerProgram() && card.getDisabled().equals("enable")).collect(Collectors.toList());
 		home.setCards(homeCards);
 		return home;
 	}
@@ -27,7 +27,15 @@ public class HomeServices {
 	public Home careerCards() {
 		Home home = new Home();
 		List<Cards> cards = cardsRepository.findAll();
-		List<Cards> homeCards=cards.stream().filter(card->card.getIsCareerProgram()).collect(Collectors.toList());
+		List<Cards> homeCards=cards.stream().filter(card->card.getIsCareerProgram() && card.getDisabled().equals("enable")).collect(Collectors.toList());
+		home.setCards(homeCards);
+		return home;
+	}
+	
+	public Home reusableCards() {
+		Home home = new Home();
+		List<Cards> cards = cardsRepository.findAll();
+		List<Cards> homeCards=cards.stream().filter(card->card.getDisabled().equals("disable")).collect(Collectors.toList());
 		home.setCards(homeCards);
 		return home;
 	}

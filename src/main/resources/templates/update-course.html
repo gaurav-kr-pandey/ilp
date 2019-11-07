@@ -1,13 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Institute for Learning and Placement</title>
+	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+</head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
 	<div class="container" style="padding-top:15px;" >
-		<a th:each="crs : ${courses}" th:href="@{/sadmin/course/}+${crs.courseId}" class="badge badge-pill badge-danger" th:text="${crs.courseTitle}" style="margin-right: 8px;"></a>
+		<a th:each="crs : ${courses}" th:if="${crs.disabled} == 'disable'" th:href="@{/sadmin/course/}+${crs.courseId}" class="badge badge-pill badge-danger" th:text="${crs.courseTitle}" style="margin-right: 8px;"></a>
+		<a th:each="crs : ${courses}" th:if="${crs.disabled} == 'enable'" th:href="@{/sadmin/course/}+${crs.courseId}" class="badge badge-pill badge-success" th:text="${crs.courseTitle}" style="margin-right: 8px;"></a>
 	</div>
-<div th:text="${msg}" style="color:red;font-size:20px;font-weight: 25px;padding-top:15px;border: 4px;border-color: black;" align="center"></div>
+	<div class="d-flex justify-content-center" style="padding-top: 20px;">
+		<strong th:text="${msg}" style="font-size:20px;" align="center">
+		</strong>
+	</div>
 	<div style="margin: 40px;">
 		<form th:action="@{/sadmin/course/update}" th:object="${course}" method="POST">
 		<input type="hidden" th:field="*{courseId}" th:value="${course.courseId}">
@@ -46,8 +55,8 @@
 				<div class="form-group">
 					<label for="inputtext4">Course syllabus</label>
 					<!-- <input type="text" class="form-control" name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required"> -->
-					<textarea rows="10" class="form-control"  name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required">
-						
+					<textarea rows="10" class="form-control"  name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}"
+					 placeholder="Enter Syllabus Seperated with commas (;)" required="required">
 					</textarea>
 				</div>
 

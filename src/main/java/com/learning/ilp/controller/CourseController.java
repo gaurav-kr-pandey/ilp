@@ -3,6 +3,7 @@ package com.learning.ilp.controller;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,12 @@ public class CourseController {
 	@GetMapping("/course/{courseId}")
 	public String courseDescription(@PathVariable("courseId") long courseId,Model model) {
 		Course course=courseServices.getCourse(courseId);
+		String syllabus[]=new String[1];
+		if(course.getSyllabus()!=null && course.getSyllabus()!="" && !course.getSyllabus().equals(null) && !course.getSyllabus().equals(""))
+			syllabus = course.getSyllabus().split(";");
+		else
+			syllabus[0] = "Course will be added soon, meanwhile contact our support team";
+		model.addAttribute("syllabus", syllabus);
 		model.addAttribute("course", course);
 		return "course";
 	}
@@ -72,7 +79,13 @@ public class CourseController {
 	@GetMapping("/user/course/{courseId}")
 	public String feeDetails(@PathVariable("courseId") long courseId,Model model) {
 		Course course=courseServices.getCourse(courseId);
+		String syllabus[]=new String[1];
+		if(course.getSyllabus()!=null && course.getSyllabus()!="" && !course.getSyllabus().equals(null) && !course.getSyllabus().equals(""))
+			syllabus = course.getSyllabus().split(";");
+		else
+			syllabus[0] = "Course will be added soon, meanwhile contact our support team";
 		model.addAttribute("course", course);
+		model.addAttribute("syllabus", syllabus);
 		return "course";
 	}
 	
@@ -106,7 +119,7 @@ public class CourseController {
 		tempPayment.setActualAmount(course.getCourseFee());
 		tempPayment.setAmountPaid(amountPaid);
 		tempPayment.setBalancedAmount(course.getCourseFee()-amountPaid);
-		String time = LocalDate.now().toString() +"  "+ LocalTime.now().toString() ;
+		String time = LocalDate.now().toString();
 		transaction.setTime(time);
 		tempPayment.setTransaction(transaction);
 		tempPayment.setCourseId(courseId);
