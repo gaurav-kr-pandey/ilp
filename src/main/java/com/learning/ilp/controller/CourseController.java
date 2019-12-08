@@ -1,5 +1,6 @@
 package com.learning.ilp.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -43,8 +44,27 @@ public class CourseController {
 	private UserRepository userRepo;
 	
 	@GetMapping("/course/{courseId}")
-	public String courseDescription(@PathVariable("courseId") long courseId,Model model) {
+	public String courseDescription(@PathVariable("courseId") long courseId,Model model,Principal principal) {
 		Course course=courseServices.getCourse(courseId);
+		
+			if(principal != null) {
+				User user = getUser();
+				Set<Course> tempCourse=user.getEnrolled();
+				if(!tempCourse.contains(course))
+					tempCourse.add(course);
+				user.setEnrolled(tempCourse);
+				userRepo.save(user);
+				Set<Course> visited = user.getEnrolled();
+				Set<Payment> payments = user.getPayment();
+				if(!payments.isEmpty()) {
+					for (Payment payment : payments) {
+						visited = visited.stream().filter(c->c.getCourseId() != payment.getCourseId()).collect(Collectors.toSet());
+					}
+				}
+				visited = visited.stream().filter(c->c.getCourseId() != courseId ).collect(Collectors.toSet());
+				if(visited.size() > 2)
+					model.addAttribute("visited", visited);
+			}
 		String syllabus[]=new String[1];
 		if(course.getSyllabus()!=null && course.getSyllabus()!="" && !course.getSyllabus().equals(null) && !course.getSyllabus().equals(""))
 			syllabus = course.getSyllabus().split(";");
@@ -65,13 +85,7 @@ public class CourseController {
 	
 	@GetMapping("/user/course/{courseId}/enroll")
 	public String enrollCourse(@PathVariable("courseId") long courseId,@ModelAttribute("transaction") Transaction transaction,Model model) {
-		User user = getUser();
 		Course course=courseServices.getCourse(courseId);
-		Set<Course> tempCourse=user.getEnrolled();
-		if(!tempCourse.contains(course))
-			tempCourse.add(course);
-		user.setEnrolled(tempCourse);
-		userRepo.save(user);
 		model.addAttribute("course", course);
 		return "payment";
 	}

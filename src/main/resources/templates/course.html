@@ -3,25 +3,31 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ILP | Institute for Learning and Placement</title>
-	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+	<link th:href="@{/images/logo.ico}" rel="shortcut icon" type="image/x-icon" >
 </head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 
 </head>
-<body th:background="@{/images/normal-background.png}" class="img-fluid">
-	<div class="card text-white bg-dark mb-3" style="padding: 50px;">
-		<h5 class="card-header" th:text="'By : '+${course.faculty}" />
+<body th:background="@{/images/normal-background.png}" class="img-fluid"><div style="padding:10px; ">
+	<div class="card text-white bg-dark mb-3"  >
+		<div style="padding-top:15px;" th:if="${visited != null}" align="center">
+			<p class="card-text font-weight-bold font-italic fas fa-tags" style="margin-right: 2px;font-size:2vmin;" th:text="' 30% discount with '+${course.courseTitle}+ ' and any of these courses : '"> </p>
+				<a th:each="crs : ${visited}" 
+			 		th:href="@{/course/}+${crs.courseId}" class="badge badge-pill badge-light" th:text="${crs.courseTitle}" style="margin-right: 2px;font-size:2vmin;"></a>
+		</div>
+		<h5 class="card-header bg-danger font-weight-bold font-italic text-center" style="border-radius: 15px;margin: 15px;" th:text="${course.courseTitle}"></h5>
 		<div class="card-body">
-			<h5 class="card-title" th:text="${course.courseTitle}" />
-			<p class="card-text" th:text="${course.courseDescription}"  />
+			<p class="card-title font-weight-normal font-italic" th:text="'By : '+${course.faculty}"/>
+			<p class="card-text font-weight-bold font-italic" th:text="${course.courseDescription}"  />
 			<ul class="list-group list-group-flush text-dark"  th:each="topic,itr : ${syllabus}" style="margin:8px;font-weight: bold;">
-				<li class="list-group-item" th:text="${itr.index+1}+' : '+ ${topic}"/>
+				<li style="border-radius: 15px;" class="list-group-item" th:text="${itr.index+1}+' : '+ ${topic}"/>
 			</ul>
 			<a th:href="@{/user/course/} + ${course.courseId} + @{/enroll/}" class="btn btn-success" style="margin-top:5px;" >Enroll</a>
 			<a th:href="@{/user/course/} + ${course.courseId}" class="btn btn-success" style="margin-top:5px;" sec:authorize="!isAuthenticated()">Fee Details</a>
-			<p style="margin-top: 25px;" class="card-footer text-white" th:text="'Course Fee : '+${course.courseFee} + ' /- Rs'" sec:authorize="isAuthenticated()"/>
+			<p style="margin-top: 25px;" class="card-footer text-white font-weight-bold font-italic" th:text="'Course Fee : '+${course.courseFee} + ' /- Rs'" sec:authorize="isAuthenticated()"/>
 		</div>
+	</div>
 	</div>
 </body>
 <div th:replace="fragments/footer :: footer"></div>

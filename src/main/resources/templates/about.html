@@ -3,17 +3,19 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ILP | About</title>
-	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+	<link th:href="@{/images/logo.ico}" rel="shortcut icon" type="image/x-icon" >
 </head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
-<body th:background="@{/images/bg-img.jpg}" class="img-fluid">
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0"></script>
 	<div class="card mb-3" style="margin-top:10px;">
 		<img th:src="@{/images/thumbnail.png}" class="card-img-top img-fluid" alt="ILP">
 		<div class="card-body">
-			<h4 class="card-title">From Management</h4>
-			<p class="card-text">Dear Students,<br>My name is Rajni Bajpai. I am
+			<h4 class="card-title font-weight-bold font-italic">From Management</h4>
+			<p class="card-text font-weight-normal font-italic">Dear Students,<br>My name is Rajni Bajpai. I am
 				a teacher by profession. Throughout my teaching and life experience
 				I come to a conclusion that getting a job is much complex now a day
 				than earlier because of the rapid change in the industries and the
@@ -57,6 +59,41 @@
 			</p>
 		</div>
 	</div>
+<div class="container" style="padding-bottom: 5px;">
+	<div class="card-deck">
+  <div class="card">
+    <div class="card-body">
+     <p class="card-text font-weight-bold font-italic"> Hit like to get update and feeds.</p>
+      <div class="fb-page" data-href="https://www.facebook.com/ilpeducation" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/ilpeducation" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/ilpeducation">ILP Institute for Learning And Placement</a></blockquote></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="fb-page" 
+		  data-tabs="messages" data-adapt-container-width="true"  data-show-facepile="false"
+		  data-href="https://www.facebook.com/ilpeducation"
+		  data-hide-cover="false"></div>
+		<p class="card-text font-weight-bold font-italic"> Text your query here. </p> 
+    </div>
+  </div>
+  <div class="card">
+   <div class="fb-page" 
+		  data-tabs="events" data-adapt-container-width="true"  data-show-facepile="false"
+		  data-href="https://www.facebook.com/ilpeducation"
+		  data-hide-cover="false"></div>
+	<p class="card-text font-weight-bold font-italic"> "An investment in knowledge pays the best interest" . We ILP team focus on career oriented and advanced programs for JOB seeking students. We help you to get placed and start your career in IT field.</p>
+    <div class="card-body">
+    <p class="card-text font-weight-bold font-italic"> Hit like to get update and feeds.</p>
+    		<div class="fb-page" 
+  data-href="https://www.facebook.com/ilpeducation" data-adapt-container-width="true"
+  data-hide-cover="false"
+  data-show-facepile="false"></div>
+     
+    </div>
+</div>
+  </div>
+
+    </div>
 </body>
 <div th:replace="fragments/footer :: footer"></div>
 </html>

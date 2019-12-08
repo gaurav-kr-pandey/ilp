@@ -3,30 +3,34 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>ILP | Institute for Learning and Placement</title>
-	<link rel="icon" th:href="@{/images/favicon.png}" type = "image/png" sizes="32x32">
+	<link th:href="@{/images/logo.ico}" rel="shortcut icon" type="image/x-icon" >
 </head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body class="img-fluid" th:background="@{/images/normal-background.png}">
-	<div class="card mb-3 text-white bg-dark"
-		th:each="card : ${home.cards}">
-		<div class="row no-gutters">
-			<div class="col-md-4">
-				<img th:src="@{/images/}+${card.imageName}"
-					style="height: 250px; width: 250px;" class="card-img-top"
-					th:alt="${card.alternateName}">
+<div style="padding: 8px;padding-bottom:3px">
+	<div class="card mb-3 text-white bg-danger"
+		th:each="card : ${home.cards}" >
+		<div class="row no-gutters ">
+			<div class="col-md-2">
+				<a th:href="@{/course/}+${card.courseId}">
+					<img th:src="@{/images/}+${card.imageName}"
+						style="height: 100%; width: 100%;" class="card-img-top"
+						th:alt="${card.alternateName}">
+				</a>
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-10">
 				<div class="card-body">
-					<h5 class="card-title" th:text="${card.cardTitle}" />
-					<p class="card-text" th:text="${card.cardText}"
+					<h5 class="card-title font-weight-bold font-italic" th:text="${card.cardTitle}"></h5>
+					<p class="card-text font-weight-bold font-italic text-white" th:text="${card.cardText}"
 						style="text-decoration: bold;" />
 					<a th:href="@{/course/}+${card.courseId}" class="btn btn-primary">Explore</a>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 <div th:replace="fragments/footer :: footer"></div>
 </html>
