@@ -7,21 +7,27 @@
 </head>
 <head th:replace="fragments/header :: header">
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-
 </head>
-<body th:background="@{/images/normal-background.png}" class="img-fluid"><div style="padding:10px; ">
+<body th:background="@{/images/normal-background.png}" class="img-fluid" onload="showHide()"><div style="padding:10px; " >
+
 	<div class="card text-white bg-dark mb-3"  >
 		<div style="padding-top:15px;" th:if="${visited != null}" align="center">
-			<p class="card-text font-weight-bold font-italic fas fa-tags" style="margin-right: 2px;font-size:2vmin;" th:text="' 30% discount with '+${course.courseTitle}+ ' and any of these courses : '"> </p>
+			<p class="card-text font-weight-bold font-italic" style="margin-right: 2px;font-size:2vmin;" th:text="' 30% discount with '+${course.courseTitle}+ ' and any of these courses : '"> </p>
 				<a th:each="crs : ${visited}" 
 			 		th:href="@{/course/}+${crs.courseId}" class="badge badge-pill badge-light" th:text="${crs.courseTitle}" style="margin-right: 2px;font-size:2vmin;"></a>
 		</div>
-		<h5 class="card-header bg-danger font-weight-bold font-italic text-center" style="border-radius: 15px;margin: 15px;" th:text="${course.courseTitle}"></h5>
+		<h5 class="card-header bg-danger font-weight-bold font-italic" style="border-radius: 15px;margin: 15px;" th:text="${course.courseTitle}"></h5>
 		<div class="card-body">
 			<p class="card-title font-weight-normal font-italic" th:text="'By : '+${course.faculty}"/>
 			<p class="card-text font-weight-bold font-italic" th:text="${course.courseDescription}"  />
-			<ul class="list-group list-group-flush text-dark"  th:each="topic,itr : ${syllabus}" style="margin:8px;font-weight: bold;">
-				<li style="border-radius: 15px;" class="list-group-item" th:text="${itr.index+1}+' : '+ ${topic}"/>
+			
+			<ul class="list-group list-group-flush text-dark "  th:each="topic: ${syllabus}" style="margin:8px;">
+				<li  th:class="${itr.count == 1 ? 'list-group-item font-weight-bold iconExpandCollapse far fa-plus-square' : 'list-group-item toggle'}"
+				th:style="${itr.size < 2 ? 'border-radius: 15px;' : itr.count == 1 ? 'border-radius: 15px;border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;' :
+				 itr.count == itr.size ? 'border-radius: 15px;border-top-right-radius: 0px;border-top-left-radius: 0px;' : ''}"
+				 th:each="t,itr : ${#strings.arraySplit(topic, ',')}" th:text="${itr.count == 1} ? ' '+${t} : ${itr.index}+'. '+${t}"
+				 onclick="showHide()" >
+				 </li>
 			</ul>
 			<a th:href="@{/user/course/} + ${course.courseId} + @{/enroll/}" class="btn btn-success" style="margin-top:5px;" >Enroll</a>
 			<a th:href="@{/user/course/} + ${course.courseId}" class="btn btn-success" style="margin-top:5px;" sec:authorize="!isAuthenticated()">Fee Details</a>
@@ -29,6 +35,43 @@
 		</div>
 	</div>
 	</div>
+<script type="text/javascript">
+
+	function showHide(){
+		var toggle = document.getElementsByClassName("toggle");
+		var ec = document.getElementsByClassName("iconExpandCollapse");
+		Array.prototype.forEach.call(toggle, function(x) {
+			if (x.style.display === "none") {
+		        x.style.display = "block";
+		        Array.prototype.forEach.call(ec, function(i) {
+		        	i.classList.remove('fa-plus-square');
+		        	i.classList.add('fa-minus-square');
+				});
+		    } else {
+		        x.style.display = "none";
+		        Array.prototype.forEach.call(ec, function(i) {
+		        	i.classList.remove('fa-minus-square');
+		        	i.classList.add('fa-plus-square');				
+				});
+		    }
+			
+		});
+		if(toggle.length == 0 || toggle == null  || toggle == undefined){
+			Array.prototype.forEach.call(ec, function(i) {
+	        	i.classList.remove('fa-plus-square');
+	        	i.classList.remove('far');
+			});
+		}
+	}
+
+	/* function iconExpandCollapse(){
+		if ( document.getElementById("iconExpandCollapse").classList.contains('fa-plus-square') )
+			document.getElementById("iconExpandCollapse").classList.toggle('fa-minus-square');
+		else
+			document.getElementById("iconExpandCollapse").classList.toggle('fa-plus-square');
+	} */
+	
+</script>
 </body>
 <div th:replace="fragments/footer :: footer"></div>
 </html>

@@ -49,14 +49,23 @@
 				</div>
 				<div class="form-group col-md-4">
 					<label for="inputPassword4">Course Fee</label> 
-					<input type="number" class="form-control" th:field="*{courseFee}" min="1000" th:value="${course.courseFee}" placeholder="Course Fee" required="required">
+					<input type="number" class="form-control" th:field="*{courseFee}" min="0" th:value="${course.courseFee}" placeholder="Course Fee" required="required">
 				</div>
 			</div>
 				<div class="form-group">
 					<label for="inputtext4">Course syllabus</label>
-					<!-- <input type="text" class="form-control" name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}" placeholder="Enter Syllabus Seperated with commas (,)" required="required"> -->
-					<textarea rows="10" class="form-control"  name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}"
-					 placeholder="Enter Syllabus Seperated with commas (;)" required="required">
+					<textarea rows="12" class="form-control"  name="syllabus" th:value="${course.syllabus}" th:field="*{syllabus}"
+					 placeholder="
+					Enter topics seperated with (; semicolon) and for subtopic use (,  comma) 
+					
+					Format :
+					Heading1 , Subtopic1 : Description of Subtopic, Subtopic2 : Description of Subtopic ;	<=(This is Topic1)
+					Heading2 , Subtopic1 : Description of Subtopic, Subtopic2 : Description of Subtopic ;	<=(This is Topic2)
+					
+					Note : 
+					1. Use semicolon and comma only for Topics and Subtopics in the text. To seprate the text you can use other delimeters
+					2. If you don't have subtopic and description that is totally optional. Just write (Heading1; Heading2; Heading3; ... so on )
+					" required="required">
 					</textarea>
 				</div>
 
@@ -66,6 +75,7 @@
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
+		
 	</div>
 </body>
 <div th:replace="fragments/footer :: footer"></div>

@@ -3,6 +3,8 @@ package com.learning.ilp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.learning.ilp.constants.ILPConstants;
@@ -23,6 +26,9 @@ import com.learning.ilp.services.HomeServices;
 
 @Controller
 public class UserProfileController {
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 	@Autowired
 	private HomeServices homeServices;
@@ -119,6 +125,36 @@ public class UserProfileController {
 		model.addAttribute("msg", "Profile Updated Successfully.");
 		return "update-user-profile";
 	}
+	
+	@GetMapping("/login/password/{username}")
+	public String forgotPassword(@PathVariable("username") String username,Model model) {
+		User user = userRepository.findByUsername(username);
+		if(user == null) {
+			model.addAttribute("msg", "Incorrect username. Contact @ +919654610063.");
+			return "login";
+		}
+		else {
+			SimpleMailMessage msg = new SimpleMailMessage();
+	        msg.setFrom("info@ilpeducation.in");
+	        msg.setTo(user.getEmail());
+	        msg.setSubject("Your Password | ILP");
+	        msg.setText("Hi, "+user.getFirstName()+" "+user.getLastName()+" \r\n"+"Your username and password is :"
+	        		+ "\r\n"
+	        		+ "Username : "+user.getUsername()+"\r\n"
+	        		+"Password : "+user.getPassword()+"\r\n"
+	        		+"If this is not you, change your password or inform at info@ilpeducation.in");
+
+	        javaMailSender.send(msg);
+		}
+        
+        Home home=homeServices.careerCards();
+		model.addAttribute("home", home);
+		model.addAttribute("msg", "Password sent at your email associated with "+username);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(!(auth instanceof AnonymousAuthenticationToken) )
+			return "redirect:/";
+		return "login";
+    }
 	
 	private  User getUser() {
 		IlpUserDetails userDetails = (IlpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

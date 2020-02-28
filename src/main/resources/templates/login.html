@@ -14,12 +14,10 @@
 		<form th:action="@{/authenticateTheUser}" method="POST"
 			class="form-horizontal">
 			<div class="form-group">
-				<label for="exampleInputEmail1" class="text-light">Username</label> <input
-					type="text" class="form-control" id="exampleInputEmail1"
-					name="username" aria-describedby="emailHelp" required="required"
-					placeholder="Enter email"> <small id="emailHelp"
-					class="form-text text-muted">We'll never share your email
-					with anyone else.</small>
+				<label for="exampleInputEmail1" class="text-light">Username</label> 
+				<input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp" required="required"
+				`placeholder="Enter email"> 
+				<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 			</div>
 			<div class="form-group">
 				<label for="exampleInputPassword1" class="text-light">Password</label> <input
@@ -28,6 +26,8 @@
 			</div>
 			<div class="form-group">
 				<a href="/signup" class="btn btn-link text-light" style="font-size: 20px;">Create Your Account Here</a>
+				<input type="button" class="btn btn-link text-light" data-toggle="modal" data-target="#exampleModalCenter" style="font-size: 20px;" value="Forgot Password">
+				
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 			<div class="form-group" style="padding-top: 30px;">
@@ -43,10 +43,49 @@
 								You have been logged out.
 							</div>
 						</div>
+						<div th:if="${msg != null && msg != ''}">
+							<div class="alert alert-danger col-xs-offset-1 col-xs-10" th:text="${msg}"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Type Your Username : </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="username" class="col-form-label">Username :</label>
+            <input type="text" class="form-control" id="uname"> <small id="wrongUser"
+					class="form-text text-danger"></small>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="forgetPassword()">Email Password</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function forgetPassword() {
+  var txt;
+  var username = document.getElementById('uname').value;
+  username = username.trim();
+  if (username == null || username == "") {
+	  document.getElementById('wrongUser').innerText = "Username can not be empty";
+  } else {
+	document.getElementById('wrongUser').innerText = "";
+    window.location = "/login/password/"+username;
+  }
+}
+</script>
 </body>
 </html>

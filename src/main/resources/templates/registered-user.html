@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ILP | Users</title>
+	<link th:href="@{/images/logo.ico}" rel="shortcut icon" type="image/x-icon" >
+</head>
+<head th:replace="fragments/header :: header">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body th:background="@{/images/normal-background.png}" class="img-fluid">
+	<div class="d-flex justify-content-center" style="padding-top: 50px;padding-bottom: 40px;">
+		<form class="form-inline my-2 my-lg-0"
+			th:action="@{/registered/user/search}" method="POST">
+			<input class="form-control mr-sm-4" type="search" name="username" required="required"
+				placeholder="Type Your Pattern" aria-label="Search">
+			<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+		</form>
+	</div>
+	<div align="center"><a style="padding-left: 4px;" class="badge badge-dark" href="/users">Refresh</a></div>
+	<div class="table-responsive" style="padding: 10px;">
+		<table class="table table-striped table-info">
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Phone Number</th>
+					<th scope="col">Username</th>
+					<th scope="col">Courses Viewed</th>
+					<th scope="col">Role</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="intrestedUser : ${intrestedUsers}">
+					<th th:text="${intrestedUser.firstName+' '+intrestedUser.lastName}"></th>
+					<td th:text="${intrestedUser.phoneNumber}"></td>
+					<td th:text="${intrestedUser.username}"></td>
+					<td>
+						<select class="form-control form-control-sm" >
+							<option th:if="${not #lists.isEmpty(intrestedUser.enrolled)}" th:each="course: ${intrestedUser.enrolled}" th:text="${course.courseTitle}" selected="selected"></option>
+							<option th:if="${#lists.isEmpty(intrestedUser.enrolled)}">No Views</option>
+						</select>
+					</td>
+					<td class="table-danger" th:if="${intrestedUser.roles == 'ROLE_USER,ROLE_ADMIN,ROLE_SUPER_ADMIN'}">Super Admin</td>
+					<td th:if="${intrestedUser.roles == 'ROLE_USER'}">Student</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>

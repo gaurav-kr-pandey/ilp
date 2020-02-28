@@ -18,14 +18,12 @@
 					<th scope="col">Course</th>
 					<th scope="col">Fee</th>
 					<th scope="col">Duration</th>
-					<th scope="col">Registration Fee</th>
 				</tr>
 				<tr>
 					<th scope="col" th:text=${course.courseId}></th>
 					<th scope="col" th:text=${course.courseTitle}></th>
 					<th scope="col" th:text=${course.courseFee}></th>
 					<th scope="col" th:text=${course.duration}></th>
-					<th scope="col">1000 Rs.</th>
 				</tr>
 			</thead>
 
@@ -74,7 +72,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label>Amount Paid</label> 
-					<input type="number" class="form-control" min="1000" th:field="*{amount}" placeholder="Amount Paid" required="required">
+					<input type="number" class="form-control" min="100" th:field="*{amount}" placeholder="Amount Paid" required="required">
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary mb-2">Submit</button>

@@ -65,12 +65,11 @@
 					<input type="number" class="form-control" id="phoneNumber" th:value="${user.phoneNumber}" pattern=".{10,10}" th:field="*{phoneNumber}" required="required"
 					title="Enter Valid Number (Excluding country code or Zero Prefix)">
 				</div>
-				<div class="form-group col-md-2" >
+				<div class="form-group col-md-5" >
 					<label for="roles">College</label> 
 					<select id="college" class="form-control"  name="colgId">
 						<option  value="" selected="selected" disabled>Select</option>
 						<option th:each="college : ${colleges}" th:value="${college?.collegeId}" th:text="${college.collegeName}"></option>
-						<option  value="others">Others</option>
 					</select>
 				</div>
 			</div>

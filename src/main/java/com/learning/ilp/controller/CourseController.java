@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,9 @@ import com.learning.ilp.services.HomeServices;
 
 @Controller
 public class CourseController {
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 	@Autowired
 	private CourseServices courseServices;
@@ -142,7 +147,9 @@ public class CourseController {
 		user.setPayment(payment);
 		user.setEnrolled(tempCourse);
 		userRepo.save(user);
-
+		sendTransactionDetails(user);
+		sendNotification(user);
+		
 		model.addAttribute("paymentDetails", tempPayment);
 		model.addAttribute("paymentList", payment);
 		return "transaction-history";
@@ -181,6 +188,33 @@ public class CourseController {
 		return "payment-history";
 	}
 	
+	private void sendTransactionDetails(User user) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("info@ilpeducation.in");
+        msg.setTo(user.getEmail());
+        msg.setBcc("posttorahuldixit@gmail.com","gaurav17p@gmail.com");
+        msg.setSubject("Registration | ILP Education");
+        msg.setText("Hi, "+user.getFirstName()+" "+user.getLastName()+" \r\n"
+        		+"Your transaction id has been recieved successfully. "
+        		+ "Once we approve your transaction, we will let you know as soon as possible. To know more details you can login to www.ilpeducation.in/login and click on [Payment History] tab."
+        		+ "\r\n"
+        		+ "For any help call us at +919654610063.");
+
+        javaMailSender.send(msg);
+
+    }
+	
+	private void sendNotification(User user) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("info@ilpeducation.in");
+        msg.setTo("posttorahuldixit@gmail.com","gaurav17p@gmail.com");
+        msg.setSubject(user.getFirstName()+" "+user.getLastName()+" registered into a course");
+        msg.setText("Hi, ILP Admin"+" \r\n"+"This is to notify you that a new user "+ user.getFirstName()+" "+user.getLastName()+" has registered into a course  \r\n"
+        		+ "Kindly, login to your ILP Application and approve details ASAP. ");
+
+        javaMailSender.send(msg);
+
+    }
 	private  User getUser() {
 		IlpUserDetails userDetails = (IlpUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return userRepo.findByUsername(userDetails.getUsername());

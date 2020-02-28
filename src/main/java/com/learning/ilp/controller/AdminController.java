@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,9 @@ import com.learning.ilp.services.CollegeServices;
 public class AdminController {
 
 	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
@@ -63,15 +68,30 @@ public class AdminController {
 
 	@GetMapping("/approve")
 	public String approve(@ModelAttribute("user") User user, Model model) {
-		List<User> allUsers = userRepository.getIntrestedUsers();
-		List<User> intrestedUsers = allUsers.stream().filter(u -> u.getPayment().isEmpty())
-				.collect(Collectors.toList());
-		model.addAttribute("intrestedUsers", intrestedUsers);
+		List<User> allUsers = userRepository.getPendingApprovalUsers();
 		List<User> paidUsers = allUsers.stream().filter(u -> !u.getPayment().isEmpty()).collect(Collectors.toList());
 		model.addAttribute("paidUsers", paidUsers);
 		return "approve";
 	}
 
+	@GetMapping("/users")
+	public String users(@ModelAttribute("user") User user, Model model) {
+		List<User> allUsers = userRepository.getIntrestedUsers();
+		List<User> intrestedUsers = allUsers.stream().filter(u -> u.getPayment().isEmpty())
+				.collect(Collectors.toList());
+		model.addAttribute("intrestedUsers", intrestedUsers);
+		return "registered-user";
+	}
+	
+	@PostMapping("/registered/user/search")
+	public String searchRegUser(@ModelAttribute("user") User user,@RequestParam("username") String searchString,Model model) {
+		List<User> allUsers = userRepository.getUsersLike(searchString);
+		List<User> intrestedUsers = allUsers.stream().filter(u -> u.getPayment().isEmpty())
+				.collect(Collectors.toList());
+		model.addAttribute("intrestedUsers", intrestedUsers);
+		return "registered-user";
+	}
+	
 	@GetMapping("/cards")
 	public String cards(@ModelAttribute("card") Cards card, Model model) {
 		long cardCount = cardsRepo.findAll().stream().filter(cardTemp -> !cardTemp.getIsCareerProgram()).count();
@@ -303,6 +323,7 @@ public class AdminController {
 			tempPaymentList.add(addToList);
 			amountPaid = 0;
 		}
+		sendRejectedEmail(user);
 		model.addAttribute("paymentList", tempPaymentList);
 		model.addAttribute("userDetails", user);
 		return "approve-transaction";
@@ -341,6 +362,7 @@ public class AdminController {
 			tempPaymentList.add(addToList);
 			amountPaid = 0;
 		}
+		sendAcceptedEmail(user);
 		model.addAttribute("paymentList", tempPaymentList);
 		model.addAttribute("userDetails", user);
 		return "approve-transaction";
@@ -423,6 +445,34 @@ public class AdminController {
 
 	}
 
+	private void sendAcceptedEmail(User user) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("info@ilpeducation.in");
+        msg.setTo(user.getEmail());
+        msg.setCc("posttorahuldixit@gmail.com","gaurav17p@gmail.com");
+        msg.setSubject("Registration | ILP Education");
+        msg.setText("Hi, "+user.getFirstName()+" "+user.getLastName()+" \r\n"
+        		+"Your payment has been accepted. You are successfully registered. To know more details you can login to www.ilpeducation.in/login and click on [Payment History] tab."
+        		+ "\r\n"
+        		+ "For any help call us at +919654610063.");
+
+        javaMailSender.send(msg);
+
+    }
+	
+	private void sendRejectedEmail(User user) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("info@ilpeducation.in");
+        msg.setTo(user.getEmail());
+        msg.setCc("posttorahuldixit@gmail.com","gaurav17p@gmail.com");
+        msg.setSubject("Registration | ILP");
+        msg.setText("Hi, "+user.getFirstName()+" "+user.getLastName()+" \r\n"+"Your payment has been rejected. It might be due to wrong Transaction ID has been submitted by you. \r\n"
+        		+ "Kindly, resubmit your Valid Transaction ID. For any help call us at +919654610063.");
+
+        javaMailSender.send(msg);
+
+    }
+	
 	private User getUser() {
 		IlpUserDetails userDetails = (IlpUserDetails) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();

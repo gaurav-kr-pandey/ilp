@@ -15,7 +15,7 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/css/common.css}" />
 </head>
-<body th:background="@{/images/normal-background.png}" class="img-fluid" >
+<body th:background="@{/images/normal-background.png}" class="img-fluid" onload="readMore()">
 	<div id="carouselExampleIndicators" class="carousel slide"
 		data-ride="carousel">
 		<ol class="carousel-indicators">
@@ -28,17 +28,17 @@
 			<div class="carousel-item img-fluid active">
 			<a href="#sliders">
 				<img class="d-block w-100 " style="width: 100%;"
-					th:src="@{/images/projectTrainingSlide.png}" alt="First slide"></a>
+					th:src="@{/images/projectTrainingSlide.png}" alt="Project Training"></a>
 			</div>
 			<div class="carousel-item img-fluid">
 			<a href="#sliders">
 				<img class="d-block w-100 img-fluid" style="width: 100%;"
-					th:src="@{/images/careerCampSlide.png}" alt="Second slide"></a>
+					th:src="@{/images/careerCampSlide.png}" alt="Career Camp"></a>
 			</div>
 			<div class="carousel-item img-fluid">
 			<a href="#sliders">
 				<img class="d-block w-100 img-fluid" style="width: 100%;"
-					th:src="@{/images/ilpSlide.png}" alt="Third slide"></a>
+					th:src="@{/images/ilpSlide.png}" alt="ILP | Institutte For Learning and Placement"></a>
 			</div>
 		</div>
 		<a class="carousel-control-prev" href="#carouselExampleIndicators"
@@ -63,8 +63,8 @@
 			<a th:href="@{/course/}+${card.courseId}" class="btn btn-primary">Explore</a>
 			<div class="card-body">
 				<h5 class="card-title text-center font-weight-bold" th:text="${card.cardTitle}"></h5>
-				<p class="card-text font-weight-bold font-italic text-center text-info" th:text="${card.cardText}"> </p>
-						
+				<p class="card-text font-weight-bold font-italic text-center text-info readMore" th:text="${card.cardText}" onclick="viewDetails(this.nextElementSibling)"> </p>
+				<a th:href="@{/course/}+${card.courseId}" class="stretched-link readMoreLink">View Details</a>
 			</div>
 			<div class="card-footer d-flex bd-highlight">
       			<a href="https://www.facebook.com/ilpeducation/" target="_blank" class="fab fa-facebook text-white flex-fill bd-highlight"> </a>
@@ -76,6 +76,38 @@
 		</div>
 		
 	</div>
+<script type="text/javascript">
+function readMore() {   
+	var els = document.getElementsByClassName("readMore");
+	Array.prototype.forEach.call(els, function(el) {
+		var string = el.innerHTML;
+	    var strippedString = $("<p>" + string + "</p>").text().trim();      
+	    var array = strippedString.split(" ");
+	    var wordCount = array.length;
+	    var string = array.splice(0, 80).join(" ");
+
+	    if(wordCount > 80) {
+	        string += "...";
+	    }
+
+	    //document.getElementById("description").innerHTML = string ;
+	    el.innerHTML = string;
+	});
+	
+	var links = document.getElementsByClassName("readMoreLink");
+	Array.prototype.forEach.call(links, function(el) {
+		el.style.display = "none";
+	});
+
+}
+function viewDetails(obj){
+	
+	//var x = document.getElementById("viewLink");
+    obj.style.display = "block";
+
+}
+
+</script>
 </body>
 <div th:replace="fragments/footer :: footer"></div>
 </html>

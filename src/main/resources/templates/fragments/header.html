@@ -1,6 +1,7 @@
 <head>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 	<link th:href="@{/images/logo.ico}" rel="shortcut icon" type="image/x-icon" >
+	
 </head>
 <header th:fragment="header">
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
@@ -9,7 +10,6 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarTogglerDemo03"
@@ -17,72 +17,54 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand font-weight-bold" href="/" style="font-size:2vmin;" >
-		<img
-			th:src="@{/images/logo.ico}" width="30" height="30"
-			class="d-inline-block align-top" alt="ILP"
-			style="font-size: 30px; font-family: Abril Fatface;">
-		Institute for Learning and Placement
-		</a>
+		
 
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 		<ul class="navbar-nav align-self-right">
+			<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/" style="font-size:2vmin;">
+			<img
+			th:src="@{/images/logo.ico}" width="30" height="30"
+			class="d-inline-block align-top" alt="ILP"
+			style="font-size: 30px; font-family: Abril Fatface;">
+			Institute for Learning and Placement</a></li>
 			<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/">Home</a></li>
 			<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/course">Courses</a></li>
 			<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/career">Career Programs</a></li>
 			<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/about">About</a></li>
 		</ul>
-		<ul class="nav navbar-nav navbar-right">
-				<li class="align-self-right dropdown">
-					<a class="nav-link active dropdown-toggle font-weight-bold" href="#" id="navbardrop" data-toggle="dropdown" sec:authorize="hasRole('SUPER_ADMIN')">Add Here</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="/approve">Approve Requests</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/create-user">Create Profile</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/cards">Create Cards</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/sadmin/course/entry">Create Courses</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/sadmin/college/entry">Add College</a>
-						</div>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="align-self-right dropdown">
-					<a class="nav-link active dropdown-toggle font-weight-bold" href="#" id="navbardrop" data-toggle="dropdown" sec:authorize="hasRole('SUPER_ADMIN')">Update Here</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="/approve">Approve Requests</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/configure/user">Configure Profile</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/card/update-cards">Update Cards</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/sadmin/course/update-course">Update Course</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/sadmin/college/update">Update College</a>
-						</div>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li >
-					<a class="nav-link active font-weight-bold" href="/user/course/payments" sec:authorize="isAuthenticated()">Payment History</a>
-				</li>
-				<li >
-					<a class="nav-link active font-weight-bold" href="/update/user" sec:authorize="isAuthenticated()" >Update Profile</a>
-				</li>
-			</ul>
+		
 			 
 		</div>
-		<ul class="nav justify-content-end">
+			<ul class="nav justify-content-end">
       			<li><a class="nav-link active text-white font-weight-bold" sec:authorize="!isAuthenticated()" href="/signup"><span class=" fas fa-sign-in-alt" style="margin-right: 3px;"></span> Sign Up</a></li>
-     			 <li><a class="nav-link active text-white font-weight-bold" sec:authorize="!isAuthenticated()" href="/login"><span class="far fa-user" style="margin-right: 3px;"></span> Login</a></li>
-   				<li>
-   					<form action="#" th:action="@{/logout}" method="POST">
-						<button class="btn btn-dark font-weight-bold"  sec:authorize="isAuthenticated()" type="submit"><span class="far fa-user" style="margin-right: 3px;"></span>Logout</button>
+     			<li><a class="nav-link active text-white font-weight-bold" sec:authorize="!isAuthenticated()" href="/login"><span class="far fa-user" style="margin-right: 3px;"></span> Login</a></li>	
+   			</ul>
+	   	<div class="dropdown dropleft float-right" sec:authorize="isAuthenticated()">
+		    <button type="button" class="btn btn-dark dropdown-toggle font-weight-bold" data-toggle="dropdown">
+		     <span class="far fa-user" style="margin-right: 3px;font-size:24px;"></span> Profile
+		    </button>
+			    <div class="dropdown-menu" style="right: 0px;">
+			      <a class="dropdown-item" href="/user/course/payments" sec:authorize="isAuthenticated()">Payment History</a>
+			      <a class="dropdown-item" href="/update/user" sec:authorize="isAuthenticated()" >Update Profile</a>
+			      	<form action="#" th:action="@{/logout}" method="POST" id="logoutForm">
+						<a class="dropdown-item" href="javascript:{}" onclick="document.getElementById('logoutForm').submit(); return false;"
+						sec:authorize="isAuthenticated()" >Logout</a>
 					</form>
-   				</li>
-   			 </ul>
+			    </div>
+	  </div>
+	</nav>
+	<nav aria-label="breadcrumb" sec:authorize="hasRole('SUPER_ADMIN')" >
+		<ol class="breadcrumb justify-content-center"  style="margin-bottom: 0px !important;">
+			<li class="breadcrumb-item font-weight-bold"><a href="/create-user">Create Profile</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/cards">Create Cards</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/sadmin/course/entry">Create Courses</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/sadmin/college/entry">Add College</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/approve">Approve Requests</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/users">Registered Users</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/configure/user">Configure Profile</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/card/update-cards">Update Cards</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/sadmin/course/update-course">Update Course</a></li>
+			<li class="breadcrumb-item font-weight-bold"><a href="/sadmin/college/update">Update College</a></li>
+		</ol>
 	</nav>
 </header>
-

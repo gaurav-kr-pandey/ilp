@@ -1,5 +1,6 @@
 package com.learning.ilp.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,15 @@ public class Transaction {
 	private boolean isValid;
 	private String time;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Payment payment;
+	
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
 	public int getId() {
 		return id;
 	}

@@ -9,13 +9,29 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 <body th:background="@{/images/normal-background.png}" class="img-fluid">
-	<div class="container" style="padding-top:15px;" >
+<script>
+function searchCollege() {
+  var val = document.getElementById("collegeSearch");
+  var x =val.options[val.selectedIndex].value
+  window.location = x;
+}
+</script>
+	<!-- <div class="container" style="padding-top:15px;" >
 		<a th:each="clg : ${colleges}" th:href="@{/sadmin/college/}+${clg.collegeId}" class="badge badge-pill badge-success" th:text="${clg.collegeName}" style="margin-right: 8px;"></a>
-	</div>
+	</div> -->
 	<div class="d-flex justify-content-center" style="padding-top: 20px;">
 		<strong th:text="${msg}" style="font-size:20px;">
 		</strong>
 	</div>
+	<div class="container">
+		<div class="d-flex justify-content-center" style="padding-top: 20px;">
+			<select id="collegeSearch" class="form-control form-control-lg col-md-8"  name="colgId" onchange="searchCollege()">
+				<option  value="#" selected="selected" disabled>Select College</option>
+				<option th:each="clg : ${colleges}" th:value="@{/sadmin/college/}+${clg.collegeId}" th:text="${clg.collegeName}"></option>
+			</select>
+		</div>
+	</div>
+	
 	<div style="margin: 40px;">
 		<form th:action="@{/college/update}" th:object="${college}" method="POST">
 		<input type="hidden" th:field="*{collegeId}" th:value="${college.collegeId}">
